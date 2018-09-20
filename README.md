@@ -1,13 +1,16 @@
 # SuperBoot
-集成了kit、dbkit、httpkit的欢乐包应用。以Boot模板的方式约定大于配置，快速开发应用。
+集成了kit、dbkit、httpkit的欢乐包应用。以Boot模板的方式约定大于配置，快速开发应用。  
+详情参考示例应用： myStation
 
-
-### 启动  
+### 极速启动  
 ```  
-    public static void main(String[] args)
-    {
-        BootApplication.run(BootMain.class, args);
-    }
+	public class BootMain
+	{
+	    public static void main(String[] args)
+	    {
+	        BootApplication.run(BootMain.class, args);
+	    }
+	}
 ```  
 
 
