@@ -1,0 +1,9 @@
+target
+build
+logs
+.settings
+.project
+.classpath
+.gitattributes
+.DS_Store
+.idea
