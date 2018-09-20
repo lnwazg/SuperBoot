@@ -34,6 +34,7 @@ public class BootApplication {
 		Map<String, String> appConfigs = PropertyUtils
 				.load(BootApplication.class.getClassLoader().getResourceAsStream(DEFAULT_APP_CONFIG_NAME));
 
+		//加载完配置之后要做的事情
 		if (StringUtils.isNotEmpty(appConfigs.get("afterReadConfigs.tasklist.classpath"))) {
 			HandlerSequence.executeTasksByTaskClazzPathSync(appConfigs.get("afterReadConfigs.tasklist.classpath"),
 					appConfigs);
