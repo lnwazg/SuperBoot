@@ -8,6 +8,7 @@ import com.lnwazg.dbkit.utils.DbKit;
 import com.lnwazg.httpkit.filter.CtrlFilterChain;
 import com.lnwazg.httpkit.server.HttpServer;
 import com.lnwazg.kit.converter.VC;
+import com.lnwazg.kit.handlerseq.HandlerSequence;
 import com.lnwazg.kit.job.JobLoader;
 import com.lnwazg.kit.log.Logs;
 import com.lnwazg.kit.property.PropertyUtils;
@@ -75,5 +76,7 @@ public class BootApplication
         }
         //启动定时任务调度器
         JobLoader.loadPackageJob(appConfigs.get("mvc.packagesearch.job"));
+        //启动后立即要做的一系列事情
+        HandlerSequence.bootTasksByClassPath(appConfigs.get("afterboot.tasklist.classpath"));
     }
 }
