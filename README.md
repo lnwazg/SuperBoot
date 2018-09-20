@@ -2,19 +2,19 @@
 集成了kit、dbkit、httpkit的欢乐包应用。以Boot模板的方式约定大于配置，快速开发应用。  
 详情参考示例应用： myStation
 
-### 极速启动  
+### 从main函数极速启动  
 ```  
-	public class BootMain
-	{
-	    public static void main(String[] args)
-	    {
-	        BootApplication.run(BootMain.class, args);
-	    }
-	}
+public class BootMain
+{
+    public static void main(String[] args)
+    {
+        BootApplication.run(BootMain.class, args);
+    }
+}
 ```  
 
 
-### 配置 (application.properties)
+### 配置文件示例 (application.properties)
 ```
 #服务器端口号
 server.port=8080
