@@ -1,9 +1,10 @@
 target
 build
+bin
 logs
 .settings
 .project
 .classpath
-.gitattributes
 .DS_Store
 .idea
+.gitattributes
