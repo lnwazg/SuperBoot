@@ -93,13 +93,13 @@ public class BootApplication
         }
         
         // 自动初始化表结构
-        DbKit.packageSearchAndInitTables(appConfigs.get("mvc.packagesearch.entity"), jdbc);
+        DbKit.packageSearchAndInitTables(appConfigs.get("mvc.packagesearch.entity"));
         
         // 初始化DAO层
-        DbKit.packageSearchAndInitDao(appConfigs.get("mvc.packagesearch.dao"), jdbc);
+        DbKit.packageSearchAndInitDao(appConfigs.get("mvc.packagesearch.dao"));
         
         // 初始化service层
-        DbKit.packageSearchAndInitService(appConfigs.get("mvc.packagesearch.service"), jdbc);
+        DbKit.packageSearchAndInitService(appConfigs.get("mvc.packagesearch.service"));
         
         // 起一个server实例，并初始化controller层
         int port = VC.of(appConfigs.get("server.port")).intValue();
