@@ -109,6 +109,10 @@ public class BootApplication
             server = HttpServer.bind(port);
             // server之所以没做成单例模式的，是因为我要支持多实例的server对象在一个项目中共存
             server.setControllerSuffix(appConfigs.get("mvc.controller.suffix"));
+            if (StringUtils.isNotEmpty(appConfigs.get("server.contextPath")))
+            {
+                server.setBasePath(appConfigs.get("server.contextPath"));
+            }
             // 读配置文件，初始化过滤器链条
             CtrlFilterChain ctrlFilterChain = server.initFilterConfigs();
             // 为controller设置动态代理
