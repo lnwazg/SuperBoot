@@ -3,7 +3,7 @@
 媲美SpringBoot，但更精致小巧，web开发的一站式解决方案！    
 详情参考示例应用： myStation
 
-### 从main函数极速启动  
+### 从main函数极速启动：  
 ```  
 public class BootMain
 {
@@ -53,7 +53,7 @@ mvc.packagesearch.job=com.lnwazg.job
 afterboot.tasklist.classpath=com.lnwazg.afterstart.TaskList
 ```
 
-### 多数据源支持  
+### 多数据源支持：  
 ##### 1.首先在配置文件中启用多数据源  
 ```
 #以下为默认数据源配置（主数据源配置）

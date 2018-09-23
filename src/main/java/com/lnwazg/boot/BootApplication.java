@@ -79,7 +79,7 @@ public class BootApplication
                 secureMultiFilePath = Platforms.USER_HOME + "/secure.properties";
             }
             
-            Logs.i("开始加载安全化配置总文件，路径为"+secureMultiFilePath);
+            Logs.i("开始加载安全化配置总文件，路径为" + secureMultiFilePath);
             //文件名-内容 映射表
             Map<String, List<String>> fileNameContentMap = MultiPropFile.loadMultiPropFile(secureMultiFilePath, CharEncoding.UTF_8);
             Logs.i("安全化配置总文件加载完毕！");
@@ -153,7 +153,8 @@ public class BootApplication
                 server.setBasePath(appConfigs.get("server.contextPath"));
             }
             // 读配置文件，初始化过滤器链条
-            CtrlFilterChain ctrlFilterChain = server.initFilterConfigs();
+            List<String> valueList = PropertyUtils.readConfigList(appConfigs, "mvc.filters.cfg");
+            CtrlFilterChain ctrlFilterChain = server.initFilterConfigs(valueList);
             // 为controller设置动态代理
             // 最终初始化controller
             server.packageSearchAndInit(appConfigs.get("mvc.packagesearch.controller"), ctrlFilterChain);
