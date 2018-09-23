@@ -3,6 +3,14 @@
 媲美SpringBoot，但更精致小巧，web开发的一站式解决方案！    
 详情参考示例应用： myStation
 
+### 近期任务  
+- redis集成
+- quartz集群多节点重复启动问题内置解决方案
+- 
+
+
+
+
 ### 从main函数极速启动：  
 ```  
 public class BootMain
