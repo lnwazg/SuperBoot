@@ -16,6 +16,8 @@ import com.lnwazg.kit.converter.VC;
 import com.lnwazg.kit.handlerseq.HandlerSequence;
 import com.lnwazg.kit.job.JobLoader;
 import com.lnwazg.kit.log.Logs;
+import com.lnwazg.kit.platform.Platforms;
+import com.lnwazg.kit.property.MultiPropFile;
 import com.lnwazg.kit.property.PropertyUtils;
 import com.lnwazg.kit.singleton.B;
 
@@ -35,9 +37,10 @@ public class BootApplication
     
     public static void run(Class<?> mainClazz, String[] args)
     {
+        //版权字符画信息输出
         try
         {
-            //版权字符画
+            
             List<String> list = IOUtils.readLines(BootApplication.class.getClassLoader().getResourceAsStream("legal/powerfile.txt"), CharEncoding.UTF_8);
             for (String line : list)
             {
@@ -53,7 +56,41 @@ public class BootApplication
         // 加载应用配置信息
         Map<String, String> appConfigs = PropertyUtils
             .load(BootApplication.class.getClassLoader().getResourceAsStream(DEFAULT_APP_CONFIG_NAME));
+        
+        //配置文件加密的处理策略
+        //根据不同的平台，去指定的本地路径去加载相应的配置文件，避免敏感信息公开后泄露
+        if (StringUtils.isNotEmpty(appConfigs.get("ds.config.encrypt.filename")))
+        {
+            //加密文件名称
+            String encryptFileName = appConfigs.get("ds.config.encrypt.filename");
+            Logs.i("安全化配置模块名称:" + encryptFileName);
             
+            String secureMultiFilePath = null;
+            if (Platforms.IS_MACOSX)
+            {
+                secureMultiFilePath = Platforms.USER_HOME + "/Desktop/secure.properties";
+            }
+            else if (Platforms.IS_WINDOWS)
+            {
+                secureMultiFilePath = "D:/secure.properties";
+            }
+            else if (Platforms.IS_LINUX)
+            {
+                secureMultiFilePath = Platforms.USER_HOME + "/secure.properties";
+            }
+            
+            Logs.i("开始加载安全化配置总文件，路径为"+secureMultiFilePath);
+            //文件名-内容 映射表
+            Map<String, List<String>> fileNameContentMap = MultiPropFile.loadMultiPropFile(secureMultiFilePath, CharEncoding.UTF_8);
+            Logs.i("安全化配置总文件加载完毕！");
+            
+            Logs.i("加载安全配置文件信息...");
+            List<String> fileStrList = fileNameContentMap.get(encryptFileName);
+            Map<String, String> subFileConfigs = PropertyUtils.load(fileStrList);
+            Logs.i("安全配置文件信息加载完毕");
+            appConfigs.putAll(subFileConfigs);
+        }
+        
         //加载完配置之后要做的事情
         if (StringUtils.isNotEmpty(appConfigs.get("app.tasklist.classpath.afterReadConfigs")))
         {
@@ -86,9 +123,11 @@ public class BootApplication
             for (String dsName : dsNameArray)
             {
                 Logs.i("开始初始化数据源:" + dsName + "...");
-                B.s(MyJdbc.class, dsName, DbKit.getJdbc(appConfigs.get(dsName + ".db.url"),
-                    appConfigs.get(dsName + ".db.username"),
-                    appConfigs.get(dsName + ".db.password")));
+                B.s(MyJdbc.class,
+                    dsName,
+                    DbKit.getJdbc(appConfigs.get(dsName + ".db.url"),
+                        appConfigs.get(dsName + ".db.username"),
+                        appConfigs.get(dsName + ".db.password")));
             }
         }
         
