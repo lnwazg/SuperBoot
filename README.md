@@ -1,5 +1,6 @@
 # SuperBoot
 集成了kit、dbkit、httpkit的欢乐包应用。以Boot模板的方式启动，遵循约定大于配置，开启极速应用开发体验。  
+媲美SpringBoot，但更精致小巧，web开发的一站式解决方案！    
 详情参考示例应用： myStation
 
 ### 从main函数极速启动  
