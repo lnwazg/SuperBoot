@@ -56,7 +56,7 @@ public class BootApplication
         // 加载应用配置信息
         Map<String, String> appConfigs = PropertyUtils
             .load(BootApplication.class.getClassLoader().getResourceAsStream(DEFAULT_APP_CONFIG_NAME));
-        
+            
         //配置文件加密的处理策略
         //根据不同的平台，去指定的本地路径去加载相应的配置文件，避免敏感信息公开后泄露
         if (StringUtils.isNotEmpty(appConfigs.get("ds.config.encrypt.filename")))
@@ -82,6 +82,11 @@ public class BootApplication
             Logs.i("开始加载安全化配置总文件，路径为" + secureMultiFilePath);
             //文件名-内容 映射表
             Map<String, List<String>> fileNameContentMap = MultiPropFile.loadMultiPropFile(secureMultiFilePath, CharEncoding.UTF_8);
+            if (fileNameContentMap == null)
+            {
+                Logs.e("本地安全化配置总文件" + secureMultiFilePath + "不存在，无法加载配置信息，请检查！");
+                return;
+            }
             Logs.i("安全化配置总文件加载完毕！");
             
             Logs.i("加载安全配置文件信息...");
