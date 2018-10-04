@@ -24,7 +24,6 @@ import com.lnwazg.kit.singleton.B;
 /**
  * 借鉴SpringBoot，新增以Boot的方式启动<br>
  * 约定优于配置原则的终极应用
- * 
  * @author nan.li
  * @version 2018年9月20日
  */
