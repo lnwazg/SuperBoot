@@ -17,7 +17,6 @@ public class BootMain
 }
 ```  
 
-
 ### 配置文件示例 (application.properties)
 ```
 #服务器端口号
