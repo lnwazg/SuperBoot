@@ -12,6 +12,7 @@ import com.lnwazg.dbkit.jdbc.MyJdbc;
 import com.lnwazg.dbkit.utils.DbKit;
 import com.lnwazg.httpkit.filter.CtrlFilterChain;
 import com.lnwazg.httpkit.server.HttpServer;
+import com.lnwazg.kit.cache.redis.RedisClient;
 import com.lnwazg.kit.converter.VC;
 import com.lnwazg.kit.handlerseq.HandlerSequence;
 import com.lnwazg.kit.job.JobLoader;
@@ -55,7 +56,7 @@ public class BootApplication
         // 加载应用配置信息
         Map<String, String> appConfigs = PropertyUtils
             .load(BootApplication.class.getClassLoader().getResourceAsStream(DEFAULT_APP_CONFIG_NAME));
-            
+        
         //配置文件加密的处理策略
         //根据不同的平台，去指定的本地路径去加载相应的配置文件，避免敏感信息公开后泄露
         if (StringUtils.isNotEmpty(appConfigs.get("ds.config.encrypt.filename")))
@@ -169,10 +170,28 @@ public class BootApplication
         {
             e.printStackTrace();
         }
+        
         // 启动定时任务调度器
-        if (StringUtils.isNotEmpty(appConfigs.get("app.job.packagesearch")))
+        boolean jobClusterSwitch = VC.of(appConfigs.get("app.job.clustersupport.switch")).booleanValue();
+        if (jobClusterSwitch)
         {
-            JobLoader.loadPackageJob(appConfigs.get("app.job.packagesearch"));
+            //多节点job loader
+            if (StringUtils.isNotEmpty(appConfigs.get("app.job.packagesearch")))
+            {
+                JobLoader.multiNodeLoadPackageJob(appConfigs.get("app.job.packagesearch"),
+                    new RedisClient(
+                        appConfigs.get("app.job.clustersupport.redis.ip"),
+                        VC.of(appConfigs.get("app.job.clustersupport.redis.port")).intValue()),
+                    appConfigs.get("app.job.clustersupport.appId"));
+            }
+        }
+        else
+        {
+            //单节点job loader
+            if (StringUtils.isNotEmpty(appConfigs.get("app.job.packagesearch")))
+            {
+                JobLoader.loadPackageJob(appConfigs.get("app.job.packagesearch"));
+            }
         }
         
         // 启动后立即要做的一系列事情
