@@ -1,15 +1,10 @@
-# SuperBoot
-集成了kit、dbkit、httpkit的欢乐包应用。以Boot模板的方式启动，遵循约定大于配置，开启极速应用开发体验。  
-媲美SpringBoot，但更精致小巧，web开发的一站式解决方案！    
-详情参考示例应用： myStation
-
-### 近期任务  
-- redis集成
-- quartz集群多节点重复启动问题内置解决方案
-- 
-
-
-
+# SuperBoot  
+- 集成kit、dbkit、httpkit，小巧而快速的开发体验
+- 以Boot模板的方式启动，遵循约定大于配置，少写成吨的重复代码
+- 媲美SpringBoot，但更精致小巧，web开发的一站式解决方案    
+- TODO redis集成
+- TODO quartz集群多节点重复启动问题内置解决方案
+- TODO 日志模块优化
 
 ### 从main函数极速启动：  
 ```  
@@ -145,26 +140,3 @@ public class WorkInfoService {
 	}
 }
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
