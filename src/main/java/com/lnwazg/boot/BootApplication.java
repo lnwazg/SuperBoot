@@ -163,8 +163,8 @@ public class BootApplication
             // 为controller设置动态代理
             // 最终初始化controller
             server.packageSearchAndInit(appConfigs.get("mvc.packagesearch.controller"), ctrlFilterChain);
-            //TODO 待改进
-            server.packageSearchAndInitRpc("com.lnwazg.rpc.service.impl");
+            //启用RPC服务并包扫描
+            server.packageSearchAndInitRpc(appConfigs.get("mvc.packagesearch.rpc"));
             // 启动服务器，并监听在这个端口处
             server.listen();
         }
