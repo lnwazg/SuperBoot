@@ -57,8 +57,9 @@ public class BootApplication
         Map<String, String> appConfigs = PropertyUtils
             .load(BootApplication.class.getClassLoader().getResourceAsStream(DEFAULT_APP_CONFIG_NAME));
         
-        //配置文件加密的处理策略
+        //配置文件加密配置信息的处理策略
         //根据不同的平台，去指定的本地路径去加载相应的配置文件，避免敏感信息公开后泄露
+        //该加密配置模块是可选的（可不使用）
         if (StringUtils.isNotEmpty(appConfigs.get("ds.config.encrypt.filename")))
         {
             //加密文件名称
@@ -163,8 +164,11 @@ public class BootApplication
             // 为controller设置动态代理
             // 最终初始化controller
             server.packageSearchAndInit(appConfigs.get("mvc.packagesearch.controller"), ctrlFilterChain);
-            //启用RPC服务并包扫描
-            server.packageSearchAndInitRpc(appConfigs.get("mvc.packagesearch.rpc"));
+            if (StringUtils.isNotEmpty(appConfigs.get("mvc.packagesearch.rpc")))
+            {
+                //启用RPC服务并包扫描
+                server.packageSearchAndInitRpc(appConfigs.get("mvc.packagesearch.rpc"));
+            }
             // 启动服务器，并监听在这个端口处
             server.listen();
         }
